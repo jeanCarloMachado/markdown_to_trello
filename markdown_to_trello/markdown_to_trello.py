@@ -26,7 +26,7 @@ class SaveCards:
     def perform(self, cards: List['Card']):
         commands = self.dry_run(cards)
         for command in commands:
-            os.system(f'command')
+            os.system(command)
 
 
 
