@@ -1,12 +1,23 @@
 import os
 from typing import List
+import re
 
 class MarkdownToTrello:
     def __init__(self, text):
         self.text = text
 
     def convert_to_cards(self) -> List['Card']:
-        return [Card(self.text)]
+        cards : List['Card'] = []
+        for line in self.text.splitlines():
+            if self._line_empty(line):
+                continue
+            cards.append(Card(line))
+
+        return cards
+
+    def _line_empty(self, line: str) -> bool:
+        return not re.search(".*[A-Za-z0-9]+.*", line)
+
 
 
 Command = str
@@ -36,4 +47,5 @@ class SaveCards:
 
 class Card:
     def __init__(self, title):
+        title = re.sub("^- ", '', title)
         self.title = title
