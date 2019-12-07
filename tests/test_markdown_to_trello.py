@@ -16,7 +16,10 @@ class ConverterTest(unittest.TestCase):
         self.assertEqual(cards[0].title, 'Do groceries')
 
     def test_multiple_lines_multiple_cards(self):
-        pass
+        text = "- Do groceries\n- Do laundry"
+        cards = MarkdownToTrello(text).convert_to_cards()
+        self.assertEqual(cards[0].title, 'Do groceries')
+        self.assertEqual(cards[1].title, 'Do laundry')
 
     def test_empty_line_no_card(self):
         text = """
@@ -25,12 +28,15 @@ class ConverterTest(unittest.TestCase):
         self.assertEqual(cards, [])
 
 
-
 class SaveTest(unittest.TestCase):
     def test_save(self):
-        result = SaveCards().dry_run([Card('buy milk')])
+        result = SaveCards('Myboard','Inbox').dry_run([
+            Card('buy milk'),
+            Card('clean clothes'),
+        ])
 
-        self.assertEqual(result[0], 'trello add-card -b "Jeans Life" -l "Inbox" "buy milk" "" -q top')
+        self.assertEqual(result[0], 'trello add-card -b "Myboard" -l "Inbox" "buy milk" "" -q top')
+        self.assertEqual(result[1], 'trello add-card -b "Myboard" -l "Inbox" "clean clothes" "" -q top')
 
 
 

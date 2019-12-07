@@ -19,19 +19,29 @@ class MarkdownToTrello:
         return not re.search(".*[A-Za-z0-9]+.*", line)
 
 
+class Card:
+    def __init__(self, title):
+        title = re.sub("^- ", '', title)
+        self.title = title
 
 Command = str
 
 class SaveCards:
+    def __init__(self, board, lane):
+        self.board = board
+        self.lane = lane
+
     def dry_run(self, cards: List['Card']) -> List[Command]:
-        board = "Jeans Life"
-        lane = "Inbox"
         description = ''
         position = 'top'
-        title = cards[0].title
-        cmd = f'trello add-card -b "{board}" -l "{lane}" "{title}" "{description}" -q {position}'
 
-        return [cmd]
+        commands = []
+        cards = reversed(cards)
+        for card in cards:
+            title = card.title
+            commands.append(f'trello add-card -b "{self.board}" -l "{self.lane}" "{title}" "{description}" -q {position}')
+
+        return commands
 
 
     def perform(self, cards: List['Card']):
@@ -39,13 +49,3 @@ class SaveCards:
         for command in commands:
             os.system(command)
 
-
-
-
-
-
-
-class Card:
-    def __init__(self, title):
-        title = re.sub("^- ", '', title)
-        self.title = title
