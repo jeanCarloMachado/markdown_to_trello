@@ -1,5 +1,5 @@
 import unittest
-from markdown_to_trello.converter import *
+from markdown_to_trello.markdown_to_trello import *
 
 class ConverterTest(unittest.TestCase):
     def test_simplest(self):

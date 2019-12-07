@@ -1,5 +1,5 @@
 import sys
-from markdown_to_trello.converter import MarkdownToTrello, SaveCards
+from markdown_to_trello.markdown_to_trello import MarkdownToTrello, SaveCards
 
 
 
