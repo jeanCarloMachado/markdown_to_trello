@@ -21,12 +21,23 @@ class ConverterTest(unittest.TestCase):
         self.assertEqual(cards[0].title, 'Do groceries')
         self.assertEqual(cards[1].title, 'Do laundry')
 
+
     def test_empty_line_no_card(self):
         text = """
         """
         cards = MarkdownToTrello(text).convert_to_cards()
         self.assertEqual(cards, [])
 
+    def test_ignore_identation_of_siblings(self):
+        text = """
+                - Do groceries
+                - Do laundry
+        """
+
+        cards = MarkdownToTrello(text).convert_to_cards()
+
+        self.assertEqual(cards[0].title, 'Do groceries')
+        self.assertEqual(cards[1].title, 'Do laundry')
 
 class SaveTest(unittest.TestCase):
     def test_save(self):
@@ -35,8 +46,8 @@ class SaveTest(unittest.TestCase):
             Card('clean clothes'),
         ])
 
-        self.assertEqual(result[0], 'trello add-card -b "Myboard" -l "Inbox" "buy milk" "" -q top')
-        self.assertEqual(result[1], 'trello add-card -b "Myboard" -l "Inbox" "clean clothes" "" -q top')
+        self.assertEqual(result[1], 'trello add-card -b "Myboard" -l "Inbox" "buy milk" "" -q top')
+        self.assertEqual(result[0], 'trello add-card -b "Myboard" -l "Inbox" "clean clothes" "" -q top')
 
 
 

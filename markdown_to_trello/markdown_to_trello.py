@@ -21,7 +21,8 @@ class MarkdownToTrello:
 
 class Card:
     def __init__(self, title):
-        title = re.sub("^- ", '', title)
+        # remove empty spaces in front and the minus of a list
+        title = re.sub("^\s*- ", '', title)
         self.title = title
 
 Command = str
