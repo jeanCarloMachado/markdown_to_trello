@@ -59,11 +59,11 @@ class ConverterTest(unittest.TestCase):
 class SaveTest(unittest.TestCase):
     def test_save(self):
         result = SaveCards('Myboard','Inbox').dry_run([
-            Card('buy milk'),
+            Card('buy milk', "my description"),
             Card('clean clothes'),
         ])
 
-        self.assertEqual(result[1], 'trello add-card -b "Myboard" -l "Inbox" "buy milk" "" -q top')
+        self.assertEqual(result[1], 'trello add-card -b "Myboard" -l "Inbox" "buy milk" "my description" -q top')
         self.assertEqual(result[0], 'trello add-card -b "Myboard" -l "Inbox" "clean clothes" "" -q top')
 
 

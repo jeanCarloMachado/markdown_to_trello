@@ -43,13 +43,13 @@ class SaveCards:
         self.lane = lane
 
     def dry_run(self, cards: List['Card']) -> List[Command]:
-        description = ''
         position = 'top'
 
         commands = []
         cards = reversed(cards)
         for card in cards:
             title = card.title
+            description = card.description
             commands.append(f'trello add-card -b "{self.board}" -l "{self.lane}" "{title}" "{description}" -q {position}')
 
         return commands
