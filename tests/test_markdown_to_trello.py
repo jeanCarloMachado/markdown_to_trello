@@ -41,19 +41,18 @@ class ConverterTest(unittest.TestCase):
         self.assertEqual(cards[1].title, 'Do laundry')
 
 
-    @pytest.mark.skip(reason="Feature not ready")
     def test_list_with_description(self):
         text = """
-                - Do groceries
-                    - avocado
-                    - laranja
-                - Do laundry
+- Do groceries
+    - avocado
+    - laranja
+- Do laundry
         """
 
         cards = MarkdownToTrello(text).convert_to_cards()
 
         self.assertEqual(cards[0].title, 'Do groceries')
-        self.assertEqual(cards[0].description, '- avocado\n- laranja')
+        self.assertEqual(cards[0].description, '    - avocado\n    - laranja')
         self.assertEqual(cards[1].title, 'Do laundry')
 
 

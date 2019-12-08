@@ -4,6 +4,8 @@ class TreeParser:
     """
     This code is kind of ugly but it fits the simple purpose at hand here.
     If I need to extend the behaviour then I should consider something more sophisticated.
+    Supports only 2 levels of indentation (which is what I need right now).
+    If I end up needing more I should refactor to something recursive.
     And also start returning something more than a simple dict.
     """
     def parse(self, text):

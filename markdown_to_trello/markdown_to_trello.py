@@ -1,5 +1,7 @@
 import os
 from typing import List, Optional
+from markdown_to_trello.tree_parser import TreeParser
+from functools import reduce
 import re
 
 class MarkdownToTrello:
@@ -8,17 +10,19 @@ class MarkdownToTrello:
 
     def convert_to_cards(self) -> List['Card']:
         cards: List['Card'] = []
-        current_level_of_indentation: Optional[int] = None
-        for line in self.text.splitlines():
-            if self._line_empty(line):
-                continue
+        parsed_tree = TreeParser().parse(self.text)
 
-            cards.append(Card(line))
+        for node in parsed_tree:
+            description = ''
+            if node.get('nested'):
+                lines = list(map(lambda x: x['text'], node['nested']))
+                description = '\n'.join(lines)
+
+
+            cards.append(Card(node['text'], description))
 
         return cards
 
-    def _indentation_level(self, string) -> int:
-        return len(string) - len(string.lstrip())
 
     def _line_empty(self, line: str) -> bool:
         return not re.search(".*[A-Za-z0-9]+.*", line)
