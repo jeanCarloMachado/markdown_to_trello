@@ -1,5 +1,5 @@
 import unittest
-from markdown_to_trello.markdown_to_trello import *
+from markdown_to_trello.markdown_to_trello import MarkdownToTrello, SaveCards, Card
 
 class ConverterTest(unittest.TestCase):
     def test_simplest(self):
@@ -38,6 +38,22 @@ class ConverterTest(unittest.TestCase):
 
         self.assertEqual(cards[0].title, 'Do groceries')
         self.assertEqual(cards[1].title, 'Do laundry')
+
+
+    def test_list_with_description(self):
+        text = """
+                - Do groceries
+                    - avocado
+                    - laranja
+                - Do laundry
+        """
+
+        cards = MarkdownToTrello(text).convert_to_cards()
+
+        self.assertEqual(cards[0].title, 'Do groceries')
+        self.assertEqual(cards[0].description, '- avocado\n- laranja')
+        self.assertEqual(cards[1].title, 'Do laundry')
+
 
 class SaveTest(unittest.TestCase):
     def test_save(self):
