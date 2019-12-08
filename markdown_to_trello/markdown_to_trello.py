@@ -1,5 +1,5 @@
 import os
-from typing import List
+from typing import List, Optional
 import re
 
 class MarkdownToTrello:
@@ -7,13 +7,18 @@ class MarkdownToTrello:
         self.text = text
 
     def convert_to_cards(self) -> List['Card']:
-        cards : List['Card'] = []
+        cards: List['Card'] = []
+        current_level_of_indentation: Optional[int] = None
         for line in self.text.splitlines():
             if self._line_empty(line):
                 continue
+
             cards.append(Card(line))
 
         return cards
+
+    def _indentation_level(self, string) -> int:
+        return len(string) - len(string.lstrip())
 
     def _line_empty(self, line: str) -> bool:
         return not re.search(".*[A-Za-z0-9]+.*", line)

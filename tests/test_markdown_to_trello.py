@@ -1,5 +1,6 @@
 import unittest
 from markdown_to_trello.markdown_to_trello import MarkdownToTrello, SaveCards, Card
+import pytest
 
 class ConverterTest(unittest.TestCase):
     def test_simplest(self):
@@ -40,6 +41,7 @@ class ConverterTest(unittest.TestCase):
         self.assertEqual(cards[1].title, 'Do laundry')
 
 
+    @pytest.mark.skip(reason="Feature not ready")
     def test_list_with_description(self):
         text = """
                 - Do groceries
